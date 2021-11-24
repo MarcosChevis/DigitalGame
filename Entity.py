@@ -47,7 +47,7 @@ class Entity:
         return self.images
 
     def setTitleEntities(self):
-        image = [pygame.image.load("assets/TitleScreen/TituloTest01.png").convert_alpha(), (250, 275)]
+        image = [pygame.image.load("assets/TitleScreen/TituloTest01.png").convert_alpha(), (0, 0)]
         self.images.append(image)
         return self.images
 

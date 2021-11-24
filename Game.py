@@ -45,6 +45,11 @@ class Game:
 
         self.mustEat = 0
 
+        pygame.mixer.init()
+        pygame.mixer.music.load("assets/Music/Music.mp3")
+        pygame.mixer.music.play()
+        pygame.event.wait()
+
         while True:
             self.gameLoop()
 
