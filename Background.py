@@ -1,35 +1,61 @@
-import pygame, sys, os
+import pygame, sys, os, random
 
 class Background:
 
-    def __init__(self):
+    def __init__(self, delegate):
         self.images = []
-        self.positions = []
         self.previousMode = 0
+
+        self.delegate = delegate
+
+        self.buildings = []
 
         self.setTitleBackground()
 
-    def getBackground(self, mode):
-        if mode != self.previousMode:
-            self.images = []
-            self.positions = []
-
-            if mode == 0:
-                self.setTitleBackground()
+    def getBackground(self, mode, last_tick):
                 
-            elif mode == 1:
-                self.images.append(pygame.image.load("assets/branco.png").convert_alpha())
-                self.positions.append((0, 0))
+        self.images = []
+
+        if mode == 0:
+            self.setTitleBackground()
+            
+        elif mode == 1:
+            self.setMenuScreenBackground()
         
-        self.previousMode = mode
-        return [self.images, self.positions]
+        elif mode == 2:
+            self.setSelectCharBackground()
+
+        elif mode == 3:
+            self.setLeaderboardBackground()
+
+        elif mode == 4 or mode == 5 or mode == 6:
+            self.setRunningBakcground()
+
+
+
+        return self.images
 
     def setTitleBackground(self):
-        self.images.append(pygame.image.load("assets/branco.png").convert_alpha())
-        self.positions.append((0, 0))
+        self.images.append(((255, 255, 255), pygame.Rect(0, 0, 1000, 750)))
 
-        self.images.append(pygame.image.load("assets/TituloTest01.png").convert_alpha())
-        size = self.images[1].get_rect().size
-        posX = (800/2) - (size[0]/2)
-        posY = (600/2) - (size[1]/2)
-        self.positions.append((posX, posY))
+    def setMenuScreenBackground(self):
+        self.images.append(((255, 255, 255), pygame.Rect(0, 0, 1000, 750)))
+    
+    def setSelectCharBackground(self):
+        self.images.append(((255, 255, 255), pygame.Rect(0, 0, 1000, 750)))
+
+    def setLeaderboardBackground(self):
+        self.images.append(((255, 255, 255), pygame.Rect(0, 0, 1000, 750)))
+
+    def setRunningBakcground(self):
+        self.images.append(((173, 216, 230), pygame.Rect(0, 0, 1000, 750)))
+        if self.buildings.__len__() == 0:
+            self.buildings.append(pygame.Rect(1000, 400, 100, 1000-400))
+
+        if self.buildings[self.buildings.__len__() - 1].topright[0] <= 1000:
+            alt = random.randint(400, 700)
+            self.buildings.append(pygame.Rect(1000, alt, 100, 1000-alt))
+            
+        for b in self.buildings:
+            b.topleft = (b.topleft[0] - self.delegate.speed/5, b.topleft[1])
+            self.images.append(((0, 0, 0), b))
